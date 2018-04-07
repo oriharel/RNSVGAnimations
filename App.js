@@ -1,14 +1,15 @@
 import React, { Component } from 'react';
-import Svg, {Path, G} from 'react-native-svg';
+import Svg, {G} from 'react-native-svg';
+import AnimArc from './js/AnimArc';
 import * as shape from 'd3-shape';
 const d3 = {shape};
 import {
-  Animated,
-  StyleSheet,
-  View
+    Button,
+    StyleSheet,
+    View
 } from 'react-native';
 
-const AnimatedPath = Animated.createAnimatedComponent(Path);
+// const AnimatedPath = Animated.createAnimatedComponent(Path);
 
 
 const demoData = [
@@ -36,7 +37,7 @@ export default class App extends Component<Props> {
     constructor(props) {
         super(props);
         this.state = {
-            animValue: new Animated.Value(0),
+            // animValue: new Animated.Value(0),
             pieMultiplier: 0.1
         };
         this.value = (item)=>{
@@ -51,25 +52,28 @@ export default class App extends Component<Props> {
             .padAngle(0)
             .innerRadius(0);
 
+        setTimeout(()=>this.setState({pieMultiplier: 2}), 1000);
+
     }
 
     componentDidMount(){
-        requestAnimationFrame(()=>{
-            if (this.state.pieMultiplier < 2) {
-                this.setState({pieMultiplier: this.state.pieMultiplier+=0.1});
-            }
-        })
+        // requestAnimationFrame(()=>{
+        //     if (this.state.pieMultiplier < 2) {
+        //         this.setState({pieMultiplier: this.state.pieMultiplier+=0.1});
+        //     }
+        // })
+        // this.setState({pieMultiplier: 2});
     }
 
     componentDidUpdate(){
-        requestAnimationFrame(()=>{
-            if (this.state.pieMultiplier < 2) {
-                this.setState({pieMultiplier: this.state.pieMultiplier+=0.1});
-            }
-        })
+        // requestAnimationFrame(()=>{
+        //     if (this.state.pieMultiplier < 2) {
+        //         this.setState({pieMultiplier: this.state.pieMultiplier+=0.1});
+        //     }
+        // })
     }
 
-    createPieArc = (index) => {
+    _createPieChart = (index) => {
 
         // let multiplier = this.state.animValue.interpolate({
         //     inputRange: [0, 1],
@@ -103,19 +107,21 @@ export default class App extends Component<Props> {
               <G>
                   {
                       demoData.map( (item, index) =>{
-                          const {path, color} = this.createPieArc(index);
                           return (
-                              <AnimatedPath
-                                  d={path}
-                                  fill={color}
+                              <AnimArc
+                                  d={ () => this._createPieChart(index)}
+                                  color={item.color}
                                   key={'pie_shape_' + index}
-                                  ref={(ref)=>this.component = ref}
                               />
                           )
                       })
                   }
               </G>
           </Svg>
+          <Button
+              onPress={()=>this.setState({pieMultiplier: 2})}
+              title="Press Me"
+          />
       </View>
     );
   }

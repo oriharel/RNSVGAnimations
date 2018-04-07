@@ -3,12 +3,13 @@ import Svg, {Path, G} from 'react-native-svg';
 import * as shape from 'd3-shape';
 const d3 = {shape};
 import {
-  Animated,
-  StyleSheet,
-  View
+    Animated,
+    StyleSheet,
+    View,
+    Easing
 } from 'react-native';
 
-const AnimatedPath = Animated.createAnimatedComponent(Path);
+// const AnimatedPath = Animated.createAnimatedComponent(Path);
 
 
 const demoData = [
@@ -36,14 +37,8 @@ export default class App extends Component<Props> {
     constructor(props) {
         super(props);
         this.state = {
-            animValue: new Animated.Value(0),
+            animValue: new Animated.Value(0.1),
             pieMultiplier: 0.1
-        };
-        this.value = (item)=>{
-            return item.number;
-        };
-        this.color = (item)=>{
-            return item.color;
         };
 
         this.arcGenerator = d3.shape.arc()
@@ -51,74 +46,79 @@ export default class App extends Component<Props> {
             .padAngle(0)
             .innerRadius(0);
 
+        this.components = [];
     }
 
     componentDidMount(){
-        requestAnimationFrame(()=>{
-            if (this.state.pieMultiplier < 2) {
-                this.setState({pieMultiplier: this.state.pieMultiplier+=0.1});
+        this.state.animValue.addListener((event) => {
+            // console.log(`event value is: ${event.value}`);
+
+            demoData.map( (item, index) =>{
+                this.components[index].setNativeProps({d: this.createPieArc(index, event.value)})
+            })
+        });
+
+        Animated.timing(
+            this.state.animValue,
+            {
+                toValue: 2,
+                duration: 2000,
+                easing: Easing.inOut(Easing.quad)// Make it take a while
             }
-        })
+        ).start();
     }
 
-    componentDidUpdate(){
-        requestAnimationFrame(()=>{
-            if (this.state.pieMultiplier < 2) {
-                this.setState({pieMultiplier: this.state.pieMultiplier+=0.1});
-            }
-        })
-    }
+    componentDidUpdate(){}
 
-    createPieArc = (index) => {
+    createPieArc = (index, multiplier) => {
 
+        let endAngle = multiplier*Math.PI;
+        // let endAngle = Animated.multiply(multiplier, Math.PI);
+
+        // console.log(`endAngle is ${endAngle}`);
+
+        const arcs = d3.shape.pie()
+            .value((item)=>item.number)
+            .startAngle(0)
+            .endAngle(endAngle)
+            (demoData);
+
+        let arcData = arcs[index];
+
+        return this.arcGenerator(arcData);
+    };
+
+    render() {
         // let multiplier = this.state.animValue.interpolate({
         //     inputRange: [0, 1],
         //     outputRange: [0.1, 2]
         // });
-
-        const arcs = d3.shape.pie()
-            .value(this.value)
-            .startAngle(0)
-            .endAngle(this.state.pieMultiplier*Math.PI)
-            (demoData);
-
-        let arcData = arcs[index];
-        let path = this.arcGenerator(arcData);
-
-        return {
-            path,
-            color: this.color(demoData[index]),
-        };
-    };
-
-    render() {
-    return (
-      <View style={styles.container}>
-          <Svg
-              width={200}
-              style={styles.pieSVG}
-              height={200}
-              viewBox={`-100 -100 200 200`}
-          >
-              <G>
-                  {
-                      demoData.map( (item, index) =>{
-                          const {path, color} = this.createPieArc(index);
-                          return (
-                              <AnimatedPath
-                                  d={path}
-                                  fill={color}
-                                  key={'pie_shape_' + index}
-                                  ref={(ref)=>this.component = ref}
-                              />
-                          )
-                      })
-                  }
-              </G>
-          </Svg>
-      </View>
-    );
-  }
+        return (
+          <View style={styles.container}>
+              <Svg
+                  width={200}
+                  style={styles.pieSVG}
+                  height={200}
+                  viewBox={`-100 -100 200 200`}
+              >
+                  <G>
+                      {
+                          demoData.map( (item, index) =>{
+                              return (
+                                  <Path
+                                      d={this.createPieArc(index, 0.1)}
+                                      fill={item.color}
+                                      ref={(ref)=>this.components[index] = ref}
+                                      key={'pie_shape_' + index}
+                                  />
+                              )
+                          })
+                      }
+                  </G>
+              </Svg>
+          </View>
+        );
+    }
 }
 
 const styles = StyleSheet.create({

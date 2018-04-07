@@ -9,9 +9,6 @@ import {
     Easing
 } from 'react-native';
 
-// const AnimatedPath = Animated.createAnimatedComponent(Path);
-
-
 const demoData = [
     {
         number: 60,
@@ -24,11 +21,7 @@ const demoData = [
     {
         number: 20,
         color: '#F66A6A'
-    },
-    // {
-    //     number: 0,
-    //     color: 'transparent'
-    // }
+    }
 ];
 
 type Props = {};
@@ -51,8 +44,6 @@ export default class App extends Component<Props> {
 
     componentDidMount(){
         this.state.animValue.addListener((event) => {
-            // console.log(`event value is: ${event.value}`);
-
             demoData.map( (item, index) =>{
                 this.components[index].setNativeProps({d: this.createPieArc(index, event.value)})
             })
@@ -73,9 +64,6 @@ export default class App extends Component<Props> {
     createPieArc = (index, multiplier) => {
 
         let endAngle = multiplier*Math.PI;
-        // let endAngle = Animated.multiply(multiplier, Math.PI);
-
-        // console.log(`endAngle is ${endAngle}`);
 
         const arcs = d3.shape.pie()
             .value((item)=>item.number)
@@ -89,10 +77,6 @@ export default class App extends Component<Props> {
     };
 
     render() {
-        // let multiplier = this.state.animValue.interpolate({
-        //     inputRange: [0, 1],
-        //     outputRange: [0.1, 2]
-        // });
         return (
           <View style={styles.container}>
               <Svg

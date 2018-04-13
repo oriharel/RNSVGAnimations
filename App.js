@@ -48,7 +48,7 @@ export default class App extends Component<Props> {
             {
                 toValue: 2,
                 duration: 2000,
-                easing: Easing.inOut(Easing.quad)// Make it take a while
+                easing: Easing.inOut(Easing.quad)
             }
         ).start(()=>{
             setTimeout(this.resetPie, 2000);
@@ -75,6 +75,7 @@ export default class App extends Component<Props> {
                                         index={index}
                                         endAngle={endAngle}
                                         color={item.color}
+                                        data={demoData}
                                         key={'pie_shape_' + index}
                                     />
                                 )

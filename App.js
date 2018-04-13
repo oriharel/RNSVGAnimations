@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
-import Svg, {Path, G} from 'react-native-svg';
-import * as shape from 'd3-shape';
-const d3 = {shape};
+import Svg, {G} from 'react-native-svg';
 import {
     Animated,
     StyleSheet,
@@ -9,6 +7,9 @@ import {
     Easing,
     Button
 } from 'react-native';
+import Shape from "./Shape";
+
+const AnimatedShape = Animated.createAnimatedComponent(Shape);
 
 const demoData = [
     {
@@ -32,15 +33,8 @@ export default class App extends Component<Props> {
         super(props);
         this.state = {
             animValue: new Animated.Value(0.1),
-            pieMultiplier: 0.1
         };
 
-        this.arcGenerator = d3.shape.arc()
-            .outerRadius(100)
-            .padAngle(0)
-            .innerRadius(0);
-
-        this.components = [];
     }
 
     resetPie = ()=>{
@@ -48,11 +42,6 @@ export default class App extends Component<Props> {
     };
 
     animate = ()=>{
-        this.state.animValue.addListener((event) => {
-            demoData.map( (item, index) =>{
-                this.components[index].setNativeProps({d: this.createPieArc(index, event.value)})
-            })
-        });
 
         Animated.timing(
             this.state.animValue,
@@ -68,58 +57,44 @@ export default class App extends Component<Props> {
 
     componentDidUpdate(){}
 
-    createPieArc = (index, multiplier) => {
-
-        let endAngle = multiplier*Math.PI;
-
-        const arcs = d3.shape.pie()
-            .value((item)=>item.number)
-            .startAngle(0)
-            .endAngle(endAngle)
-            (demoData);
-
-        let arcData = arcs[index];
-
-        return this.arcGenerator(arcData);
-    };
-
     render() {
+        let endAngle = Animated.multiply(this.state.animValue, Math.PI);
         return (
-          <View style={styles.container}>
-              <Svg
-                  width={200}
-                  style={styles.pieSVG}
-                  height={200}
-                  viewBox={`-100 -100 200 200`}
-              >
-                  <G>
-                      {
-                          demoData.map( (item, index) =>{
-                              return (
-                                  <Path
-                                      d={this.createPieArc(index, 0.1)}
-                                      fill={item.color}
-                                      ref={(ref)=>this.components[index] = ref}
-                                      key={'pie_shape_' + index}
-                                  />
-                              )
-                          })
-                      }
-                  </G>
-              </Svg>
-              <Button onPress={this.animate} title={'Animate'}/>
-          </View>
+            <View style={styles.container}>
+                <Svg
+                    width={200}
+                    style={styles.pieSVG}
+                    height={200}
+                    viewBox={`-100 -100 200 200`}
+                >
+                    <G>
+                        {
+                            demoData.map( (item, index) =>{
+                                return (
+                                    <AnimatedShape
+                                        index={index}
+                                        endAngle={endAngle}
+                                        color={item.color}
+                                        key={'pie_shape_' + index}
+                                    />
+                                )
+                            })
+                        }
+                    </G>
+                </Svg>
+                <Button onPress={this.animate} title={'Animate'}/>
+            </View>
         );
     }
 }
 
 const styles = StyleSheet.create({
     container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  },
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#F5FCFF',
+    },
     pieSVG: {
         shadowColor: "rgba(59, 74, 116, 0.35)",
         shadowOffset: {

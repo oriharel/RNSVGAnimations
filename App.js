@@ -6,7 +6,8 @@ import {
     Animated,
     StyleSheet,
     View,
-    Easing
+    Easing,
+    Button
 } from 'react-native';
 
 const demoData = [
@@ -42,7 +43,11 @@ export default class App extends Component<Props> {
         this.components = [];
     }
 
-    componentDidMount(){
+    resetPie = ()=>{
+        this.state.animValue.setValue(0.1);
+    };
+
+    animate = ()=>{
         this.state.animValue.addListener((event) => {
             demoData.map( (item, index) =>{
                 this.components[index].setNativeProps({d: this.createPieArc(index, event.value)})
@@ -56,8 +61,10 @@ export default class App extends Component<Props> {
                 duration: 2000,
                 easing: Easing.inOut(Easing.quad)// Make it take a while
             }
-        ).start();
-    }
+        ).start(()=>{
+            setTimeout(this.resetPie, 2000);
+        });
+    };
 
     componentDidUpdate(){}
 
@@ -100,6 +107,7 @@ export default class App extends Component<Props> {
                       }
                   </G>
               </Svg>
+              <Button onPress={this.animate} title={'Animate'}/>
           </View>
         );
     }

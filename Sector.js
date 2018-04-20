@@ -1,9 +1,15 @@
 import React, {Component} from 'react';
+import {ART, TouchableWithoutFeedback} from 'react-native';
 import {Path} from 'react-native-svg';
 import * as shape from 'd3-shape';
 const d3 = {shape};
 
-export default class Shape extends Component {
+const {
+    Shape
+} = ART;
+
+
+export default class Sector extends Component {
     constructor(props) {
         super(props);
         this.state = {};
@@ -37,10 +43,12 @@ export default class Shape extends Component {
         } = this.props;
 
         return (
-            <Path
-                d={this.createPieArc(index, endAngle, data)}
-                fill={color}
-            />
+            <TouchableWithoutFeedback onPress={()=>{alert('hey')}}>
+                <Shape
+                    d={this.createPieArc(index, endAngle, data)}
+                    fill={color}
+                />
+            </TouchableWithoutFeedback>
         )
 
     }

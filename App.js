@@ -5,11 +5,16 @@ import {
     StyleSheet,
     View,
     Easing,
-    Button
+    Button,
+    ART
 } from 'react-native';
-import Shape from "./Shape";
+import Sector from "./Sector";
+const {
+    Group,
+    Surface
+} = ART;
 
-const AnimatedShape = Animated.createAnimatedComponent(Shape);
+const AnimatedSector = Animated.createAnimatedComponent(Sector);
 
 const demoData = [
     {
@@ -32,9 +37,8 @@ export default class App extends Component<Props> {
     constructor(props) {
         super(props);
         this.state = {
-            animValue: new Animated.Value(0.1),
+            animValue: new Animated.Value(2),
         };
-
     }
 
     resetPie = ()=>{
@@ -48,30 +52,29 @@ export default class App extends Component<Props> {
             {
                 toValue: 2,
                 duration: 2000,
-                easing: Easing.inOut(Easing.quad)
+                easing: Easing.inOut(Easing.quad),
+                // useNativeDriver: true,
             }
         ).start(()=>{
             setTimeout(this.resetPie, 2000);
         });
     };
 
-    componentDidUpdate(){}
-
     render() {
         let endAngle = Animated.multiply(this.state.animValue, Math.PI);
         return (
             <View style={styles.container}>
-                <Svg
+                <Surface
                     width={200}
                     style={styles.pieSVG}
                     height={200}
-                    viewBox={`-100 -100 200 200`}
+                    // viewBox={`-100 -100 200 200`}
                 >
-                    <G>
+                    <Group x={100} y={100}>
                         {
                             demoData.map( (item, index) =>{
                                 return (
-                                    <AnimatedShape
+                                    <AnimatedSector
                                         index={index}
                                         endAngle={endAngle}
                                         color={item.color}
@@ -81,8 +84,8 @@ export default class App extends Component<Props> {
                                 )
                             })
                         }
-                    </G>
-                </Svg>
+                    </Group>
+                </Surface>
                 <Button onPress={this.animate} title={'Animate'}/>
             </View>
         );

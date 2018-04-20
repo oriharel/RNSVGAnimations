@@ -37,7 +37,7 @@ export default class App extends Component<Props> {
     constructor(props) {
         super(props);
         this.state = {
-            animValue: new Animated.Value(2),
+            animValue: new Animated.Value(0.1),
         };
     }
 

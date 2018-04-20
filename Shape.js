@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {Path} from 'react-native-svg';
 import * as shape from 'd3-shape';
+import {TouchableWithoutFeedback} from 'react-native';
 const d3 = {shape};
 
 export default class Shape extends Component {
@@ -35,12 +36,16 @@ export default class Shape extends Component {
             index,
             data
         } = this.props;
+        let val = data[index].number;
 
         return (
-            <Path
-                d={this.createPieArc(index, endAngle, data)}
-                fill={color}
-            />
+            <TouchableWithoutFeedback onPress={()=>alert('value is: '+val)}>
+                <Path
+                    d={this.createPieArc(index, endAngle, data)}
+                    fill={color}
+                />
+            </TouchableWithoutFeedback>
+
         )
 
     }

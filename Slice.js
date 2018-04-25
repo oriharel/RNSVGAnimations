@@ -3,7 +3,7 @@ import {Path} from 'react-native-svg';
 import * as shape from 'd3-shape';
 const d3 = {shape};
 
-export default class Arc extends Component {
+export default class Slice extends Component {
     constructor(props) {
         super(props);
         this.state = {};

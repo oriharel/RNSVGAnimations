@@ -7,9 +7,9 @@ import {
     Easing,
     Button
 } from 'react-native';
-import Arc from "./Arc";
+import Slice from "./Slice";
 
-const AnimatedArc = Animated.createAnimatedComponent(Arc);
+const AnimatedSlice = Animated.createAnimatedComponent(Slice);
 
 const demoData = [
     {
@@ -69,7 +69,7 @@ export default class App extends Component<Props> {
                         {
                             demoData.map( (item, index) =>{
                                 return (
-                                    <AnimatedArc
+                                    <AnimatedSlice
                                         index={index}
                                         endAngle={endAngle}
                                         color={item.color}

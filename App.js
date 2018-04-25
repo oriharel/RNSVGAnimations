@@ -7,9 +7,9 @@ import {
     Easing,
     Button
 } from 'react-native';
-import Shape from "./Shape";
+import Arc from "./Arc";
 
-const AnimatedShape = Animated.createAnimatedComponent(Shape);
+const AnimatedArc = Animated.createAnimatedComponent(Arc);
 
 const demoData = [
     {
@@ -47,15 +47,13 @@ export default class App extends Component<Props> {
             this.state.animValue,
             {
                 toValue: 2,
-                duration: 2000,
+                duration: 500,
                 easing: Easing.inOut(Easing.quad)
             }
         ).start(()=>{
             setTimeout(this.resetPie, 2000);
         });
     };
-
-    componentDidUpdate(){}
 
     render() {
         let endAngle = Animated.multiply(this.state.animValue, Math.PI);
@@ -71,7 +69,7 @@ export default class App extends Component<Props> {
                         {
                             demoData.map( (item, index) =>{
                                 return (
-                                    <AnimatedShape
+                                    <AnimatedArc
                                         index={index}
                                         endAngle={endAngle}
                                         color={item.color}
@@ -83,7 +81,10 @@ export default class App extends Component<Props> {
                         }
                     </G>
                 </Svg>
-                <Button onPress={this.animate} title={'Animate'}/>
+                <View style={{marginTop: 20}}>
+                    <Button onPress={this.animate} title={'Animate'}/>
+                </View>
+
             </View>
         );
     }

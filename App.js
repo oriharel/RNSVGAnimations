@@ -51,9 +51,8 @@ export default class App extends Component<Props> {
             this.state.animValue,
             {
                 toValue: 2,
-                duration: 2000,
+                duration: 500,
                 easing: Easing.inOut(Easing.quad),
-                // useNativeDriver: true,
             }
         ).start(()=>{
             setTimeout(this.resetPie, 2000);
@@ -68,7 +67,6 @@ export default class App extends Component<Props> {
                     width={200}
                     style={styles.pieSVG}
                     height={200}
-                    // viewBox={`-100 -100 200 200`}
                 >
                     <Group x={100} y={100}>
                         {
@@ -86,7 +84,10 @@ export default class App extends Component<Props> {
                         }
                     </Group>
                 </Surface>
-                <Button onPress={this.animate} title={'Animate'}/>
+                <View style={styles.button}>
+                    <Button onPress={this.animate} title={'Animate'}/>
+                </View>
+
             </View>
         );
     }
@@ -109,4 +110,7 @@ const styles = StyleSheet.create({
         shadowRadius: 12.5,
         shadowOpacity: 1,
     },
+    button: {
+        marginTop: 20
+    }
 });

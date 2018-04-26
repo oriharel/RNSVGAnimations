@@ -11,6 +11,7 @@
     "react": "16.3.1",
     "react-native": "0.55.1",
     "react-native-svg": "^6.3.1",
+    "react-timer-mixin": "^0.13.3",
     "rn-snoopy": "^2.0.2"
   },
   "devDependencies": {

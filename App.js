@@ -65,21 +65,17 @@ export default class App extends Component<Props> {
                     height={200}
                     viewBox={`-100 -100 200 200`}
                 >
-                    <G>
-                        {
-                            demoData.map( (item, index) =>{
-                                return (
-                                    <AnimatedSlice
-                                        index={index}
-                                        endAngle={endAngle}
-                                        color={item.color}
-                                        data={demoData}
-                                        key={'pie_shape_' + index}
-                                    />
-                                )
-                            })
-                        }
-                    </G>
+                    {
+                        demoData.map( (item, index) =>
+                            <AnimatedSlice
+                                index={index}
+                                endAngle={endAngle}
+                                color={item.color}
+                                data={demoData}
+                                key={'pie_shape_' + index}
+                            />
+                        )
+                    }
                 </Svg>
                 <View style={{marginTop: 20}}>
                     <Button onPress={this.animate} title={'Animate'}/>

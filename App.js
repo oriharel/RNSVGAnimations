@@ -80,7 +80,6 @@ export default class App extends Component<Props> {
                 <View style={{marginTop: 20}}>
                     <Button onPress={this.animate} title={'Animate'}/>
                 </View>
-
             </View>
         );
     }

@@ -13,7 +13,7 @@ export default class Slice extends Component {
             .innerRadius(0);
     }
 
-    createPieArc = (index, endAngle, data) => {
+    createPieSlice = (index, endAngle, data) => {
 
         const arcs = d3.shape.pie()
             .value((item)=>item.number)
@@ -40,7 +40,7 @@ export default class Slice extends Component {
         return (
             <Path
                 onPress={()=>alert('value is: '+val)}
-                d={this.createPieArc(index, endAngle, data)}
+                d={this.createPieSlice(index, endAngle, data)}
                 fill={color}
             />
         )

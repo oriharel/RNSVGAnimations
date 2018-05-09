@@ -1,15 +1,17 @@
 import React, { Component } from 'react';
-import Svg, {G} from 'react-native-svg';
+import Svg, {G, Rect} from 'react-native-svg';
 import {
     Animated,
     StyleSheet,
     View,
+    Text,
     Easing,
     Button
 } from 'react-native';
 import Slice from "./Slice";
 
 const AnimatedSlice = Animated.createAnimatedComponent(Slice);
+const AnimatedRect = Animated.createAnimatedComponent(Rect);
 
 const demoData = [
     {
@@ -32,51 +34,93 @@ export default class App extends Component<Props> {
     constructor(props) {
         super(props);
         this.state = {
-            animValue: new Animated.Value(0.1),
+            animValue: new Animated.Value(0),
+            interpolatedDashArray: new Animated.ValueXY({x: 140, y: 540})
         };
 
     }
 
+    componentDidMount() {
+
+        this.state.interpolatedDashArray.addListener( (interpolatedDashArray) => {
+            this.element.setNativeProps(
+                {
+                    strokeDasharray: [
+                        interpolatedDashArray["x"].toString(),
+                        interpolatedDashArray["y"].toString()
+                    ]
+                });
+        });
+    }
+
     resetPie = ()=>{
-        this.state.animValue.setValue(0.1);
+        this.state.animValue.setValue(0);
+        this.state.interpolatedDashArray.setValue({x: 140, y: 540});
     };
 
     animate = ()=>{
 
-        Animated.timing(
-            this.state.animValue,
-            {
-                toValue: 2,
-                duration: 500,
-                easing: Easing.inOut(Easing.quad)
-            }
-        ).start(()=>{
+        Animated.parallel([
+            Animated.timing(
+                this.state.animValue,
+                {
+                    toValue: 1,
+                    duration: 500,
+                    easing: Easing.inOut(Easing.quad),
+                    // useNativeDriver: true
+                }
+            ),
+            Animated.timing(
+                this.state.interpolatedDashArray,
+                {
+                    toValue: {x: 760, y: 0},
+                    duration: 500,
+                    easing: Easing.inOut(Easing.quad),
+                    // useNativeDriver: true
+                }
+            )
+
+        ]).start(()=>{
             setTimeout(this.resetPie, 2000);
         });
+
     };
 
     render() {
-        let endAngle = Animated.multiply(this.state.animValue, Math.PI);
+
+        // let interpolatedDashArrayXY = this.state.animValue.interpolate({
+        //     inputRange: [0, 1],
+        //     outputRange: [['140', '540'], ['760', '0']]
+        // });
+
+        let interpolatedDashOffset = this.state.animValue.interpolate({
+            inputRange: [0, 1],
+            outputRange: [-474, 0]
+        });
+        let interpolatedWidth = this.state.animValue.interpolate({
+            inputRange: [0, 1],
+            outputRange: ['8', '2']
+        });
         return (
             <View style={styles.container}>
                 <Svg
-                    width={200}
-                    style={styles.pieSVG}
-                    height={200}
-                    viewBox={`-100 -100 200 200`}
+                    height="60"
+                    width="320"
                 >
-                    {
-                        demoData.map( (item, index) =>
-                            <AnimatedSlice
-                                index={index}
-                                endAngle={endAngle}
-                                color={item.color}
-                                data={demoData}
-                                key={'pie_shape_' + index}
-                            />
-                        )
-                    }
+                    <AnimatedRect
+                        height="60"
+                        width="320"
+                        strokeDasharray='140, 540'
+                        // strokeDasharray={interpolatedDashArrayXY}
+                        strokeDashoffset={interpolatedDashOffset}
+                        strokeWidth={interpolatedWidth}
+                        stroke="#19f6e8"
+                        ref={(ref)=>this.element = ref}
+                    />
                 </Svg>
+                <Text style={styles.hover}>
+                    HOVER
+                </Text>
                 <View style={{marginTop: 20}}>
                     <Button onPress={this.animate} title={'Animate'}/>
                 </View>
@@ -90,7 +134,7 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#F5FCFF',
+        backgroundColor: '#333',
     },
     pieSVG: {
         shadowColor: "rgba(59, 74, 116, 0.35)",
@@ -102,4 +146,12 @@ const styles = StyleSheet.create({
         shadowRadius: 12.5,
         shadowOpacity: 1,
     },
+    hover: {
+        color: '#fff',
+        letterSpacing: 8,
+        fontSize: 22,
+        lineHeight: 32,
+        position: "relative",
+        top: -45
+    }
 });

@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import Svg, {G, Rect} from 'react-native-svg';
+import Svg, {G, Rect, Defs, Path, TextPath, TSpan, Text} from 'react-native-svg';
 import {
     Animated,
     StyleSheet,
     View,
-    Text,
+    // Text,
     Easing,
     Button
 } from 'react-native';
@@ -12,6 +12,10 @@ import Slice from "./Slice";
 
 const AnimatedSlice = Animated.createAnimatedComponent(Slice);
 const AnimatedRect = Animated.createAnimatedComponent(Rect);
+const path = `M 10 20
+              C 40 10 60 0 80 10
+              C 100 20 120 30 140 20
+              C 160 10 180 10 180 10`;
 
 const demoData = [
     {
@@ -104,26 +108,23 @@ export default class App extends Component<Props> {
         return (
             <View style={styles.container}>
                 <Svg
-                    height="60"
-                    width="320"
+                    height="200"
+                    width="700"
+                    viewBox={'16 -13 50 50'}
                 >
-                    <AnimatedRect
-                        height="60"
-                        width="320"
-                        strokeDasharray='140, 540'
-                        // strokeDasharray={interpolatedDashArrayXY}
-                        strokeDashoffset={interpolatedDashOffset}
-                        strokeWidth={interpolatedWidth}
-                        stroke="#19f6e8"
-                        ref={(ref)=>this.element = ref}
-                    />
+                    <Defs>
+                        <Path
+                            id="path"
+                            d={path}
+                        />
+                    </Defs>
+                    <Text fill="blue">
+                        <TextPath href="#path" >
+                            Chain React,
+                            <TSpan fill="red" > Portland 2018</TSpan>
+                        </TextPath>
+                    </Text>
                 </Svg>
-                <Text style={styles.hover}>
-                    HOVER
-                </Text>
-                <View style={{marginTop: 20}}>
-                    <Button onPress={this.animate} title={'Animate'}/>
-                </View>
             </View>
         );
     }
@@ -134,7 +135,7 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#333',
+        // backgroundColor: '#333',
     },
     pieSVG: {
         shadowColor: "rgba(59, 74, 116, 0.35)",

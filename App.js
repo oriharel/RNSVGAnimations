@@ -21,25 +21,25 @@ export default class App extends Component<Props> {
         this.state = {
             animValue: new Animated.Value(0),
         };
-        this.animMirror = 0;
-
-    }
-
-    componentDidMount() {
-        this.animate();
     }
 
     animate = ()=>{
         Animated.timing(
             this.state.animValue,
             {
-                toValue: 1-this.animMirror,
+                toValue: 1,
                 duration: 2000,
                 easing: Easing.inOut(Easing.quad),
             }
         ).start(()=>{
-            this.animMirror = 1 - this.animMirror;
-            this.animate();
+            Animated.timing(
+                this.state.animValue,
+                {
+                    toValue: 0,
+                    duration: 2000,
+                    easing: Easing.inOut(Easing.quad),
+                }
+            ).start();
         });
     };
 
@@ -64,6 +64,7 @@ export default class App extends Component<Props> {
                         fill="rgb(0,0,255)"
                         strokeWidth="1"
                         stroke="rgb(0,0,0)"
+                        onPress={this.animate}
                     />
                 </Svg>
             </View>

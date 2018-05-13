@@ -106,6 +106,7 @@ export default class App extends Component<Props> {
                 <Svg
                     height="60"
                     width="320"
+
                 >
                     <AnimatedRect
                         height="60"
@@ -116,14 +117,15 @@ export default class App extends Component<Props> {
                         strokeWidth={interpolatedWidth}
                         stroke="#19f6e8"
                         ref={(ref)=>this.element = ref}
+                        onPress={this.animate}
                     />
                 </Svg>
                 <Text style={styles.hover}>
-                    HOVER
+                    TAP ME
                 </Text>
-                <View style={{marginTop: 20}}>
-                    <Button onPress={this.animate} title={'Animate'}/>
-                </View>
+                {/*<View style={{marginTop: 20}}>*/}
+                    {/*<Button onPress={this.animate} title={'Animate'}/>*/}
+                {/*</View>*/}
             </View>
         );
     }

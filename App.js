@@ -67,7 +67,6 @@ export default class App extends Component<Props> {
                     toValue: 1,
                     duration: 500,
                     easing: Easing.inOut(Easing.quad),
-                    // useNativeDriver: true
                 }
             ),
             Animated.timing(
@@ -76,7 +75,6 @@ export default class App extends Component<Props> {
                     toValue: {x: 760, y: 0},
                     duration: 500,
                     easing: Easing.inOut(Easing.quad),
-                    // useNativeDriver: true
                 }
             )
 
@@ -87,11 +85,6 @@ export default class App extends Component<Props> {
     };
 
     render() {
-
-        // let interpolatedDashArrayXY = this.state.animValue.interpolate({
-        //     inputRange: [0, 1],
-        //     outputRange: [['140', '540'], ['760', '0']]
-        // });
 
         let interpolatedDashOffset = this.state.animValue.interpolate({
             inputRange: [0, 1],
@@ -112,7 +105,6 @@ export default class App extends Component<Props> {
                         height="60"
                         width="320"
                         strokeDasharray='140, 540'
-                        // strokeDasharray={interpolatedDashArrayXY}
                         strokeDashoffset={interpolatedDashOffset}
                         strokeWidth={interpolatedWidth}
                         stroke="#19f6e8"
@@ -123,9 +115,6 @@ export default class App extends Component<Props> {
                 <Text style={styles.hover}>
                     TAP ME
                 </Text>
-                {/*<View style={{marginTop: 20}}>*/}
-                    {/*<Button onPress={this.animate} title={'Animate'}/>*/}
-                {/*</View>*/}
             </View>
         );
     }

@@ -10,23 +10,8 @@ import {
 } from 'react-native';
 import Slice from "./Slice";
 
-const AnimatedSlice = Animated.createAnimatedComponent(Slice);
 const AnimatedRect = Animated.createAnimatedComponent(Rect);
 
-const demoData = [
-    {
-        number: 60,
-        color: '#0d2f51'
-    },
-    {
-        number: 20,
-        color: '#28BD8B'
-    },
-    {
-        number: 20,
-        color: '#F66A6A'
-    }
-];
 
 type Props = {};
 export default class App extends Component<Props> {
@@ -35,71 +20,34 @@ export default class App extends Component<Props> {
         super(props);
         this.state = {
             animValue: new Animated.Value(0),
-            interpolatedDashArray: new Animated.ValueXY({x: 140, y: 540})
         };
+        this.animMirror = 0;
 
     }
 
     componentDidMount() {
-
-        this.state.interpolatedDashArray.addListener( (interpolatedDashArray) => {
-            this.element.setNativeProps(
-                {
-                    strokeDasharray: [
-                        interpolatedDashArray["x"].toString(),
-                        interpolatedDashArray["y"].toString()
-                    ]
-                });
-        });
+        this.animate();
     }
 
-    resetPie = ()=>{
-        this.state.animValue.setValue(0);
-        this.state.interpolatedDashArray.setValue({x: 140, y: 540});
-    };
-
     animate = ()=>{
-
-        Animated.parallel([
-            Animated.timing(
-                this.state.animValue,
-                {
-                    toValue: 1,
-                    duration: 500,
-                    easing: Easing.inOut(Easing.quad),
-                    // useNativeDriver: true
-                }
-            ),
-            Animated.timing(
-                this.state.interpolatedDashArray,
-                {
-                    toValue: {x: 760, y: 0},
-                    duration: 500,
-                    easing: Easing.inOut(Easing.quad),
-                    // useNativeDriver: true
-                }
-            )
-
-        ]).start(()=>{
-            setTimeout(this.resetPie, 2000);
+        Animated.timing(
+            this.state.animValue,
+            {
+                toValue: 1-this.animMirror,
+                duration: 2000,
+                easing: Easing.inOut(Easing.quad),
+            }
+        ).start(()=>{
+            this.animMirror = 1 - this.animMirror;
+            this.animate();
         });
-
     };
 
     render() {
 
-        // let interpolatedDashArrayXY = this.state.animValue.interpolate({
-        //     inputRange: [0, 1],
-        //     outputRange: [['140', '540'], ['760', '0']]
-        // });
-
-        let interpolatedDashOffset = this.state.animValue.interpolate({
+        let translateRectX = this.state.animValue.interpolate({
             inputRange: [0, 1],
-            outputRange: [-474, 0]
-        });
-        let interpolatedWidth = this.state.animValue.interpolate({
-            inputRange: [0, 1],
-            outputRange: ['8', '2']
+            outputRange: ['5', '220'],
         });
         return (
             <View style={styles.container}>
@@ -109,23 +57,15 @@ export default class App extends Component<Props> {
 
                 >
                     <AnimatedRect
-                        height="60"
-                        width="320"
-                        strokeDasharray='140, 540'
-                        // strokeDasharray={interpolatedDashArrayXY}
-                        strokeDashoffset={interpolatedDashOffset}
-                        strokeWidth={interpolatedWidth}
-                        stroke="#19f6e8"
-                        ref={(ref)=>this.element = ref}
-                        onPress={this.animate}
+                        y="10"
+                        x={translateRectX}
+                        width="90"
+                        height="90"
+                        fill="rgb(0,0,255)"
+                        strokeWidth="1"
+                        stroke="rgb(0,0,0)"
                     />
                 </Svg>
-                <Text style={styles.hover}>
-                    TAP ME
-                </Text>
-                {/*<View style={{marginTop: 20}}>*/}
-                    {/*<Button onPress={this.animate} title={'Animate'}/>*/}
-                {/*</View>*/}
             </View>
         );
     }
@@ -136,7 +76,6 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#333',
     },
     pieSVG: {
         shadowColor: "rgba(59, 74, 116, 0.35)",

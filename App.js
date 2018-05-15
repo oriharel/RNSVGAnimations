@@ -6,27 +6,10 @@ import {
     View,
     Text,
     Easing,
-    Button
 } from 'react-native';
-import Slice from "./Slice";
 
-const AnimatedSlice = Animated.createAnimatedComponent(Slice);
 const AnimatedRect = Animated.createAnimatedComponent(Rect);
 
-const demoData = [
-    {
-        number: 60,
-        color: '#0d2f51'
-    },
-    {
-        number: 20,
-        color: '#28BD8B'
-    },
-    {
-        number: 20,
-        color: '#F66A6A'
-    }
-];
 
 type Props = {};
 export default class App extends Component<Props> {
@@ -35,19 +18,19 @@ export default class App extends Component<Props> {
         super(props);
         this.state = {
             animValue: new Animated.Value(0),
-            interpolatedDashArray: new Animated.ValueXY({x: 140, y: 540})
+            dashArray: new Animated.ValueXY({x: 140, y: 540})
         };
 
     }
 
     componentDidMount() {
 
-        this.state.interpolatedDashArray.addListener( (interpolatedDashArray) => {
+        this.state.dashArray.addListener( (dashArray) => {
             this.element.setNativeProps(
                 {
                     strokeDasharray: [
-                        interpolatedDashArray["x"].toString(),
-                        interpolatedDashArray["y"].toString()
+                        dashArray["x"].toString(),
+                        dashArray["y"].toString()
                     ]
                 });
         });
@@ -55,7 +38,7 @@ export default class App extends Component<Props> {
 
     resetPie = ()=>{
         this.state.animValue.setValue(0);
-        this.state.interpolatedDashArray.setValue({x: 140, y: 540});
+        this.state.dashArray.setValue({x: 140, y: 540});
     };
 
     animate = ()=>{
@@ -70,7 +53,7 @@ export default class App extends Component<Props> {
                 }
             ),
             Animated.timing(
-                this.state.interpolatedDashArray,
+                this.state.dashArray,
                 {
                     toValue: {x: 760, y: 0},
                     duration: 500,
@@ -104,7 +87,7 @@ export default class App extends Component<Props> {
                     <AnimatedRect
                         height="60"
                         width="320"
-                        strokeDasharray='140, 540'
+                        strokeDasharray={[140, 540]}
                         strokeDashoffset={interpolatedDashOffset}
                         strokeWidth={interpolatedWidth}
                         stroke="#19f6e8"

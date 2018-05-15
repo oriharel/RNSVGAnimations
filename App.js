@@ -1,14 +1,11 @@
 import React, { Component } from 'react';
-import Svg, {G, Rect} from 'react-native-svg';
+import Svg, {Rect} from 'react-native-svg';
 import {
     Animated,
     StyleSheet,
     View,
-    Text,
     Easing,
-    Button
 } from 'react-native';
-import Slice from "./Slice";
 
 const AnimatedRect = Animated.createAnimatedComponent(Rect);
 
@@ -45,7 +42,7 @@ export default class App extends Component<Props> {
 
     render() {
 
-        let translateRectX = this.state.animValue.interpolate({
+        const translateRectX = this.state.animValue.interpolate({
             inputRange: [0, 1],
             outputRange: ['5', '220'],
         });
@@ -60,10 +57,8 @@ export default class App extends Component<Props> {
                         y="10"
                         x={translateRectX}
                         width="90"
-                        height="90"
-                        fill="rgb(0,0,255)"
-                        strokeWidth="1"
-                        stroke="rgb(0,0,0)"
+                        height="60"
+                        fill="blue"
                         onPress={this.animate}
                     />
                 </Svg>

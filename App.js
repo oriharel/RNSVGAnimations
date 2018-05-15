@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Svg, {G, Rect} from 'react-native-svg';
+import Svg, {Rect} from 'react-native-svg';
 import {
     Animated,
     StyleSheet,

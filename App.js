@@ -120,8 +120,8 @@ export default class App extends Component<Props> {
                     </Defs>
                     <Text fill="blue">
                         <TextPath href="#path" >
-                            Chain React,
-                            <TSpan fill="red" > Portland 2018</TSpan>
+                            React Day,
+                            <TSpan fill="red" > Berlin 2018</TSpan>
                         </TextPath>
                     </Text>
                 </Svg>

@@ -10,7 +10,7 @@
     "d3-shape": "^1.2.0",
     "react": "16.6.0-alpha.8af6728",
     "react-native": "0.57.4",
-    "react-native-svg": "^6.3.1",
+    "react-native-svg": "^8.0.8",
     "rn-snoopy": "^2.0.2"
   },
   "devDependencies": {

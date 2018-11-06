@@ -36,8 +36,8 @@ export default class App extends Component<Props> {
 
       const interpolatedPath = this.animValue.interpolate({
         inputRange: [0, 1],
-        // outputRange: [batman2, batman3],
-        outputRange: ['M20,20L20,80L80,80L80,20Z', 'M40,40L33,60L60,60L65,40Z'],
+        outputRange: [batman1, batman2],
+        // outputRange: ['M20,20L20,80L80,80L80,20Z', 'M40,40L33,60L60,60L65,40Z'],
       });
 
         return (
@@ -46,8 +46,8 @@ export default class App extends Component<Props> {
                     width={380}
                     style={[styles.pieSVG]}
                     height={400}
-                    // viewBox={`110 -50 380 400`}
-                    viewBox={`0 0 380 400`}
+                    viewBox={`110 -50 380 400`}
+                    // viewBox={`0 0 380 400`}
                 >
                     <AnimatedPath
                         d={interpolatedPath}

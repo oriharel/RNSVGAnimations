@@ -6,6 +6,24 @@ import {
     View,
     Easing,
 } from 'react-native';
+import Snoopy from 'rn-snoopy'
+
+
+// some Snoopy goodies we're going to use
+import bars from 'rn-snoopy/stream/bars'
+import filter from 'rn-snoopy/stream/filter'
+import buffer from 'rn-snoopy/stream/buffer'
+
+import EventEmitter from 'react-native/Libraries/vendor/emitter/EventEmitter';
+
+//If you are using React 0.48 or below, then you should import:
+//import EventEmitter from 'react-native/Libraries/EventEmitter/EventEmitter';
+
+const emitter = new EventEmitter()
+
+const events = Snoopy.stream(emitter)
+// filter({ type: Snoopy.TO_NATIVE }, true)(events).subscribe();
+
 
 const AnimatedRect = Animated.createAnimatedComponent(Rect);
 
@@ -27,6 +45,7 @@ export default class App extends Component<Props> {
                 toValue: 1,
                 duration: 2000,
                 easing: Easing.inOut(Easing.quad),
+              useNativeDriver: true
             }
         ).start(()=>{
             Animated.timing(
@@ -35,6 +54,7 @@ export default class App extends Component<Props> {
                     toValue: 0,
                     duration: 2000,
                     easing: Easing.inOut(Easing.quad),
+                    useNativeDriver: true
                 }
             ).start();
         });

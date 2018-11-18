@@ -2,19 +2,17 @@ import React, { Component } from 'react';
 import Svg, {Path} from 'react-native-svg';
 import {
     Animated,
-    StyleSheet,
     View,
-    Easing,
-    Button
 } from 'react-native';
 
 const AnimatedPath = Animated.createAnimatedComponent(Path);
-const AnimatedSvg = Animated.createAnimatedComponent(Svg);
 
 
 const batman1 = "M 256,213 C 245,181 206,187 234,262 147,181 169,71.2 233,18   220,56   235,81   283,88   285,78.7 286,69.3 288,60   289,61.3 290,62.7 291,64   291,64   297,63   300,63   303,63   309,64   309,64   310,62.7 311,61.3 312,60   314,69.3 315,78.7 317,88   365,82   380,56   367,18   431,71   453,181 366,262 394,187 356,181 344,213 328,185 309,184 300,284 291,184 272,185 256,213 Z";
 const batman2 = "M 212,220 C 197,171 156,153 123,221 109,157 120,109  159,63.6 190,114  234,115  254,89.8 260,82.3 268,69.6 270,60.3 273,66.5 275,71.6 280,75.6 286,79.5 294,79.8 300,79.8 306,79.8 314,79.5 320,75.6 325,71.6 327,66.5 330,60.3 332,69.6 340,82.3 346,89.8 366,115  410,114  441,63.6 480,109  491,157 477,221 444,153 403,171 388,220 366,188 316,200 300,248 284,200 234,188 212,220 Z";
 const batman3 = "M 213,222 C 219,150 165,139 130,183 125,123 171,73.8 247,51.6 205,78   236,108  280,102  281,90.3 282,79   286,68.2 287,72   288,75.8 289,79.7 293,79.7 296,79.7 300,79.7 304,79.7 307,79.7 311,79.7 312,75.8 313,72   314,68.2 318,79   319,90.3 320,102  364,108  395,78   353,51.6 429,73.8 475,123 470,183 435,139 381,150 387,222 364,176 315,172 300,248 285,172 236,176 213,222 Z";
+const batman4 = "M 258,243 C 220,201 221,220 253,281 154,243 150,108  229,61.9 242,83   257,98.1 275,110  278,88   282,65.8 285,43.6 287,49.9 288,56.2 290,62.5 293,62.7 297,62.9 300,62.9 303,62.9 307,62.7 310,62.5 312,56.2 313,49.9 315,43.6 318,65.8 322,88   325,110  343,98.1 358,83   371,61.9 450,108  446,243 347,281 379,220 380,201 342,243 330,187 329,202 300,271 271,202 270,187 258,243 Z";
+const batman5 = "M 235,210 C 214,139 143,145 183,229 108,175 135,70.1 242,48.3 190,85.6 245,142  278,95.5 281,80.2 281,62.7 284,48.7 287,53.9 287,59.1 289,64.5 292,64.7 297,64.2 300,64.2 303,64.2 308,64.7 311,64.5 313,59.1 313,53.9 316,48.7 319,62.7 319,80.2 322,95.5 355,142  410,85.6 358,48.3 465,70.1 492,175 417,229 457,145 386,139 365,210 357,147 309,190 300,271 291,190 243,147 235,210 Z";
 type Props = {};
 export default class App extends Component<Props> {
 
@@ -24,30 +22,43 @@ export default class App extends Component<Props> {
     }
 
     componentDidMount() {
-        Animated.timing(this.animValue, {
+        Animated.sequence([
+            Animated.timing(this.animValue, {
             toValue: 1,
-            duration: 1000,
-            // useNativeDriver: true,
-        }).start();
+            duration: 500,
+        }),
+          Animated.timing(this.animValue, {
+            toValue: 2,
+            duration: 500,
+          }),
+          Animated.timing(this.animValue, {
+            toValue: 3,
+            duration: 500,
+          }),
+          Animated.timing(this.animValue, {
+            toValue: 4,
+            duration: 500,
+          })
+
+        ])
+        .start();
     }
 
 
     render() {
 
       const interpolatedPath = this.animValue.interpolate({
-        inputRange: [0, 1],
-        outputRange: [batman1, batman2],
-        // outputRange: ['M20,20L20,80L80,80L80,20Z', 'M40,40L33,60L60,60L65,40Z'],
+        inputRange: [0, 1, 2, 3, 4],
+        outputRange: [batman1, batman2, batman3, batman4, batman5],
       });
 
         return (
-            <View style={styles.container}>
+            <View>
                 <Svg
                     width={380}
-                    style={[styles.pieSVG]}
+                    style={{}}
                     height={400}
                     viewBox={`110 -50 380 400`}
-                    // viewBox={`0 0 380 400`}
                 >
                     <AnimatedPath
                         d={interpolatedPath}
@@ -58,23 +69,3 @@ export default class App extends Component<Props> {
         );
     }
 }
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: '#F5FCFF',
-    },
-    pieSVG: {
-        shadowColor: "rgba(59, 74, 116, 0.35)",
-        shadowOffset: {
-            width: 0,
-            height: 32
-        },
-        elevation: 12,
-        shadowRadius: 12.5,
-        shadowOpacity: 1,
-      // backgroundColor: "red"
-    },
-});

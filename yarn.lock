@@ -687,9 +687,9 @@ acorn-globals@^4.1.0:
     acorn "^5.0.0"
 
 acorn@^5.0.0, acorn@^5.3.0:
-  version "5.5.3"
-  resolved "https://registry.yarnpkg.com/acorn/-/acorn-5.5.3.tgz#f473dd47e0277a08e28e9bec5aeeb04751f0b8c9"
-  integrity sha512-jd5MkIUlbbmb07nXH0DT3y7rDVtkzDi4XZOUVWAer8ajmF/DTSSbl5oNFyDOl/OXA33Bl79+ypHhl2pN20VeOQ==
+  version "5.7.4"
+  resolved "https://registry.yarnpkg.com/acorn/-/acorn-5.7.4.tgz#3e8d8a9947d0599a1796d10225d7432f4a4acf5e"
+  integrity sha512-1D++VG7BhrtvQpNbBzovKNc1FLGGEE/oGe7b9xJm/RFHMBeUaUGpluV9RLjZa47YFdPcDAenEYuq9pQPcMdLJg==
 
 ajv@^4.9.1:
   version "4.11.8"
@@ -1988,7 +1988,7 @@ compressible@~2.0.13:
 
 compression@^1.7.1:
   version "1.7.2"
-  resolved "http://registry.npmjs.org/compression/-/compression-1.7.2.tgz#aaffbcd6aaf854b44ebb280353d5ad1651f59a69"
+  resolved "https://registry.npmjs.org/compression/-/compression-1.7.2.tgz#aaffbcd6aaf854b44ebb280353d5ad1651f59a69"
   integrity sha1-qv+81qr4VLROuygDU9WtFlH1mmk=
   dependencies:
     accepts "~1.3.4"
@@ -5429,10 +5429,10 @@ react-is@^16.3.1:
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.3.1.tgz#ee66e6d8283224a83b3030e110056798488359ba"
   integrity sha512-3XpazGqS5DEOLiuR6JQ2Sg6URq/33d1BHJVaUvtMz579KRhd2D0pqabNEe5czv785yzKBPZimOf0UNIXa3jw1A==
 
-react-native-svg@^6.3.1:
-  version "6.3.1"
-  resolved "https://registry.yarnpkg.com/react-native-svg/-/react-native-svg-6.3.1.tgz#06a573f17c59ce953a56fd62e776fd79d632d765"
-  integrity sha512-0kmfUwKUBWnPuJpy+bdGIYKkXHg/M/X57ji8b3d3ZFB2rRTWMRkwI1D+AJ6FQRX109+FJn6L6hsIokDj1lckzA==
+react-native-svg@^8.0.8:
+  version "8.0.11"
+  resolved "https://registry.yarnpkg.com/react-native-svg/-/react-native-svg-8.0.11.tgz#bf91658f3a2c5ba125b4643ca0d9660b161e2631"
+  integrity sha512-xj/2DgVt5WmvBVwc8MC3xR4MZDc/+PPTRoUe/oaL5yw+MIyuhYsY15MWm7k+Zm0UQAiqKne6TOPQ7XljpDEY1w==
   dependencies:
     color "^2.0.1"
     lodash "^4.16.6"
